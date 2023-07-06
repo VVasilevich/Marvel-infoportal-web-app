@@ -2,6 +2,7 @@ import './appHeader.scss';
 
 const AppHeader = () => {
     return (
+        /* eslint-disable */
         <header className="app__header">
             <h1 className="app__title">
                 <a href="#">
