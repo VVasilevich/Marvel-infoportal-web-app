@@ -7,6 +7,7 @@ import ErrorMessage from '../errorMessage/ErrorMessage';
 import useMarvelService from '../../services/MarvelService';
 
 import './charInfo.scss';
+import { Link } from 'react-router-dom';
 
 const CharInfo = (props) => {
     const [char, setChar] = useState(null)
@@ -81,9 +82,12 @@ const View = ({char}) => {
                     comics.map((item, i) => {
                         // eslint-disable-next-line
                         if (i > 9) return;
+
+                        const comicId = item.resourceURI.split('/').pop();
+
                         return (
                             <li key={i} className="char__comics-item">
-                                {item.name}
+                                <Link to={`/comics/${comicId}`}>{item.name}</Link>
                             </li>
                         )
                     })
