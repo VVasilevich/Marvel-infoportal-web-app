@@ -16,12 +16,29 @@ const CharList = (props) => {
     const {loading, error, getAllCharacters} = useMarvelService();
 
     useEffect(() => {
-        onRequest(offset, true)
+        onRequest()
         // eslint-disable-next-line
     }, [])
 
-    const onRequest = (offset, initial) => {
-        initial ? setNewListLoading(false) : setNewListLoading(true)
+    useEffect(() => {
+        window.addEventListener('scroll', onScroll);
+        return () => window.removeEventListener('scroll', onScroll);
+    }, []);
+     
+    useEffect(() => {
+        if (newListLoading && !loading && !charEnded) {
+            onRequest();
+        }
+        // eslint-disable-next-line
+    }, [newListLoading])
+
+    const onScroll = () => {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+            setNewListLoading(true);
+        }
+    };
+
+    const onRequest = () => {
         getAllCharacters(offset)
             .then(onCharListLoaded)
     }
