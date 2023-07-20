@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import useMarvelService from '../../services/MarvelService';
+import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 
 import './charList.scss';
 
@@ -12,6 +13,7 @@ const CharList = (props) => {
     const [newListLoading, setNewListLoading] = useState(false)
     const [offset, setOffset] = useState (210)
     const [charEnded, setCharEnded] = useState(false)
+    const lastElement = useRef()
 
     const {loading, error, getAllCharacters} = useMarvelService();
 
@@ -19,24 +21,6 @@ const CharList = (props) => {
         onRequest()
         // eslint-disable-next-line
     }, [])
-
-    useEffect(() => {
-        window.addEventListener('scroll', onScroll);
-        return () => window.removeEventListener('scroll', onScroll);
-    }, []);
-     
-    useEffect(() => {
-        if (newListLoading && !loading && !charEnded) {
-            onRequest();
-        }
-        // eslint-disable-next-line
-    }, [newListLoading])
-
-    const onScroll = () => {
-        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-            setNewListLoading(true);
-        }
-    };
 
     const onRequest = () => {
         getAllCharacters(offset)
@@ -54,6 +38,8 @@ const CharList = (props) => {
         setOffset(offset => offset + 9)
         setCharEnded(charEnded => ended)
     }
+
+    useInfiniteScroll(lastElement, onRequest, loading, charEnded)
 
     const itemRefs = useRef([]);
 
@@ -112,7 +98,7 @@ const CharList = (props) => {
                 disabled={newListLoading}
                 style={{'display': charEnded ? 'none' : 'block'}}
                 onClick={() => onRequest(offset)}>
-                <div className="inner">load more</div>
+                <div className="inner" ref={lastElement}>load more</div>
             </button>
         </div>
     )

@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
 import useMarvelService from '../../services/MarvelService';
+import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 
 import './comicsList.scss';
 
@@ -12,16 +13,17 @@ const ComicsList = () => {
     const [newComicsLoading, setNewComicsLoading] = useState(false)
     const [offset, setOffset] = useState(0)
     const [comicsEnded, setComicsEnded] = useState(false)
+    const lastElement = useRef()
 
     const {loading, error, getAllComics} = useMarvelService()
 
     useEffect(() => {
-        onRequest(offset, true)
+        onRequest()
         // eslint-disable-next-line
     }, [])
 
-    const onRequest = (offset, initial) => {
-        initial ? setNewComicsLoading(false) : setNewComicsLoading(true)
+    const onRequest = () => {
+        // initial ? setNewComicsLoading(false) : setNewComicsLoading(true)
         getAllComics(offset)
             .then(onComicsListLoaded)
     }
@@ -37,6 +39,8 @@ const ComicsList = () => {
         setOffset(offset => offset + 8)
         setComicsEnded(ended)
     }
+
+    useInfiniteScroll(lastElement, onRequest, loading, comicsEnded)
 
     function renderArr(arr) {
         const items = arr.map((item, i) => {
@@ -74,7 +78,7 @@ const ComicsList = () => {
                 disabled={newComicsLoading}
                 style={{'display': comicsEnded ? 'none' : 'block' }}
                 onClick={() => onRequest(offset)}>
-                <div className="inner">load more</div>
+                <div className="inner" ref={lastElement}>load more</div>
             </button>
         </div>
     )
