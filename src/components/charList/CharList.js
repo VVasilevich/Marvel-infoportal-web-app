@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import { motion } from 'framer-motion';
 
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
@@ -56,23 +57,29 @@ const CharList = (props) => {
             }
 
             return (
-                <li className="char__item"
+                <motion.ul
                     key={item.id}
-                    tabIndex={0}
-                    ref={elem => itemRefs.current[i] = elem}
-                    onClick={() => {
-                        props.onCharSelected(item.id)
-                        onFocus(i)
-                    }}
-                    onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: .5 }}>
+                    <li className="char__item"
+                        key={item.id}
+                        tabIndex={0}
+                        ref={elem => itemRefs.current[i] = elem}
+                        onClick={() => {
                             props.onCharSelected(item.id)
                             onFocus(i)
-                        }
-                    }}>
+                        }}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                props.onCharSelected(item.id)
+                                onFocus(i)
+                            }
+                        }}>
                         <img src={item.thumbnail} alt={item.name} style={imgStyle}/>
                         <div className="char__name">{item.name}</div>
-                </li>
+                    </li>
+                </motion.ul>
             )
         })
 

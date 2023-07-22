@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 import RandomChar from "../randomChar/RandomChar";
 import CharList from "../charList/CharList";
@@ -16,18 +17,23 @@ const MainPage = () => {
 
     return (
         <>
-            <ErrorBoundary>
-                <RandomChar/>
-            </ErrorBoundary>
-            <div className="char__content">
+            <motion.div
+                initial={{ scale: .8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: .5 }}>
                 <ErrorBoundary>
-                    <CharList onCharSelected={onCharSelected}/>
+                    <RandomChar/>
                 </ErrorBoundary>
-                <ErrorBoundary>
-                    <CharInfo charId={selectedChar}/>
-                </ErrorBoundary>
-            </div>
-            <img className="bg-decoration" src={decoration} alt="vision"/>
+                <div className="char__content">
+                    <ErrorBoundary>
+                        <CharList onCharSelected={onCharSelected}/>
+                    </ErrorBoundary>
+                    <ErrorBoundary>
+                        <CharInfo charId={selectedChar}/>
+                    </ErrorBoundary>
+                </div>
+                <img className="bg-decoration" src={decoration} alt="vision"/>
+            </motion.div>
         </>
     )
 }
