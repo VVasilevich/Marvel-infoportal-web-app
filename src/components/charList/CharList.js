@@ -59,8 +59,9 @@ const CharList = (props) => {
             return (
                 <motion.ul
                     key={item.id}
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, transformOrigin: '50% 0' }}
+                    animate={{ opacity: 1, transformOrigin: '50% 0' }}
+                    exit={{ opacity: 0 }}
                     transition={{ duration: .5 }}>
                     <li className="char__item"
                         key={item.id}

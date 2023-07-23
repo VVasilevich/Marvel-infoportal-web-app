@@ -16,25 +16,24 @@ const MainPage = () => {
     }
 
     return (
-        <>
-            <motion.div
-                initial={{ scale: .8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: .5 }}>
+        <motion.div
+            initial={{ scale: .8, opacity: 0, transformOrigin: '50% 0' }}
+            animate={{ scale: 1, opacity: 1, transformOrigin: '50% 0' }}
+            exit={{ scale: .8, opacity: 0 }}
+            transition={{ duration: .5 }}>
+            <ErrorBoundary>
+                <RandomChar/>
+            </ErrorBoundary>
+            <div className="char__content">
                 <ErrorBoundary>
-                    <RandomChar/>
+                    <CharList onCharSelected={onCharSelected}/>
                 </ErrorBoundary>
-                <div className="char__content">
-                    <ErrorBoundary>
-                        <CharList onCharSelected={onCharSelected}/>
-                    </ErrorBoundary>
-                    <ErrorBoundary>
-                        <CharInfo charId={selectedChar}/>
-                    </ErrorBoundary>
-                </div>
-                <img className="bg-decoration" src={decoration} alt="vision"/>
-            </motion.div>
-        </>
+                <ErrorBoundary>
+                    <CharInfo charId={selectedChar}/>
+                </ErrorBoundary>
+            </div>
+            <img className="bg-decoration" src={decoration} alt="vision"/>
+        </motion.div>
     )
 }
 

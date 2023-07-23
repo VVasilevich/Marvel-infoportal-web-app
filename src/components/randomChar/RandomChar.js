@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 
 import Spinner from '../spinner/Spinner';
 import ErrorMessage from '../errorMessage/ErrorMessage';
@@ -61,7 +62,12 @@ const View = ({char}) => {
     }
 
     return (
-        <div className="randomchar__block">
+        <motion.div
+            className="randomchar__block"
+            initial={{ opacity: 0, transformOrigin: '50% 0' }}
+            animate={{ opacity: 1, transformOrigin: '50% 0' }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: .5 }}>
             <img src={thumbnail} alt="Random character" className="randomchar__img" style={imgStyle}/>
             <div className="randomchar__info">
                 <p className="randomchar__name">{name}</p>
@@ -77,7 +83,7 @@ const View = ({char}) => {
                     </a>
                 </div>
             </div>
-        </div>
+        </motion.div>
     )
 }
 

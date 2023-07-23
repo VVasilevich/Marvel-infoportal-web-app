@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { motion } from 'framer-motion';
 
 import Skeleton from '../skeleton/Skeleton';
 import Spinner from '../spinner/Spinner';
@@ -58,7 +59,12 @@ const View = ({char}) => {
 
     return (
         <>
-            <div className="char__basics">
+            <motion.div
+                className="char__basics"
+                initial={{ opacity: 0, transformOrigin: '50% 0' }}
+                animate={{ opacity: 1, transformOrigin: '50% 0' }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: .5 }}>
                 <img src={thumbnail} alt={name} style={imgStyle}/>
                 <div>
                     <div className="char__info-name">{name}</div>
@@ -71,12 +77,17 @@ const View = ({char}) => {
                         </a>
                     </div>
                 </div>
-            </div>
+            </motion.div>
             <div className="char__descr">
                 {description}
             </div>
             <div className="char__comics">Comics:</div>
-            <ul className="char__comics-list">
+            <motion.ul
+                className="char__comics-list"
+                initial={{ opacity: 0, transformOrigin: '50% 0' }}
+                animate={{ opacity: 1, transformOrigin: '50% 0' }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: .5 }}>
                 {comics.length > 0 ? null : 'There is no comics with this character'}
                 {
                     comics.map((item, i) => {
@@ -92,7 +103,7 @@ const View = ({char}) => {
                         )
                     })
                 }
-            </ul>
+            </motion.ul>
         </>
     )
 }
