@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { Helmet } from "react-helmet";
 
 const Page404 = () => {
     return (
@@ -8,6 +9,13 @@ const Page404 = () => {
             animate={{ scale: 1, opacity: 1, transformOrigin: '50% 0' }}
             exit={{ scale: .8, opacity: 0 }}
             transition={{ duration: .5 }}>
+            <Helmet>
+                <meta
+                    name="description"
+                    content="This page is not found"
+                />
+                <title>This page is not found</title>
+            </Helmet>
             <p style={{'textAlign': 'center', 'fontWeight': 'bold', 'fontSize': '50px'}}>Page Not Found</p>
             <button className="button button__main" style={{'display': 'block', 'margin': '60px auto'}}>
                 <Link to="/" className="inner">Back to main page</Link>
