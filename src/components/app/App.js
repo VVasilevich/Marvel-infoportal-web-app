@@ -1,7 +1,8 @@
+import { lazy } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import AppHeader from "../appHeader/AppHeader";
-import AnimatedRoutes from "../animatedRoutes/AnimatedRoutes";
+const AnimatedRoutes = lazy(() => import('../animatedRoutes/AnimatedRoutes'));
 
 const App = () => {
 
