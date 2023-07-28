@@ -2,8 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 
-import Spinner from '../spinner/Spinner';
-import ErrorMessage from '../errorMessage/ErrorMessage';
+import setListContent from '../../utils/setListContent';
 import useMarvelService from '../../services/MarvelService';
 import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 
@@ -16,7 +15,7 @@ const CharList = (props) => {
     const [charEnded, setCharEnded] = useState(false)
     const lastElement = useRef()
 
-    const {loading, error, getAllCharacters} = useMarvelService();
+    const {process, setProcess, getAllCharacters} = useMarvelService();
 
     useEffect(() => {
         onRequest()
@@ -26,6 +25,7 @@ const CharList = (props) => {
     const onRequest = () => {
         getAllCharacters(offset)
             .then(onCharListLoaded)
+            .then(() => setProcess('confirmed'))
     }
 
     const onCharListLoaded = (newCharList) => {
@@ -40,7 +40,7 @@ const CharList = (props) => {
         setCharEnded(charEnded => ended)
     }
 
-    useInfiniteScroll(lastElement, onRequest, loading, charEnded)
+    useInfiniteScroll(lastElement, onRequest, process, charEnded)
 
     const itemRefs = useRef([]);
 
@@ -93,17 +93,13 @@ const CharList = (props) => {
 
     const items = renderArr(charList);
 
-    const spinner = loading && !newListLoading ? <Spinner/> : null;
-    const errorMessage = error ? <ErrorMessage/> : null;
-
     return (
         <div className="char__list">
             {items}
-            {spinner}
-            {errorMessage}
+            {setListContent(process)}
             <button
                 className="button button__main button__long"
-                disabled={newListLoading}
+                disabled={!newListLoading}
                 style={{'display': charEnded ? 'none' : 'block'}}
                 onClick={() => onRequest(offset)}>
                 <div className="inner" ref={lastElement}>load more</div>

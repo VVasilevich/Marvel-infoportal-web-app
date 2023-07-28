@@ -2,8 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
-import Spinner from '../spinner/Spinner';
-import ErrorMessage from '../errorMessage/ErrorMessage';
+import setListContent from '../../utils/setListContent';
 import useMarvelService from '../../services/MarvelService';
 import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 
@@ -16,7 +15,7 @@ const ComicsList = () => {
     const [comicsEnded, setComicsEnded] = useState(false)
     const lastElement = useRef()
 
-    const {loading, error, getAllComics} = useMarvelService()
+    const {process, setProcess, getAllComics} = useMarvelService()
 
     useEffect(() => {
         onRequest()
@@ -27,6 +26,7 @@ const ComicsList = () => {
         // initial ? setNewComicsLoading(false) : setNewComicsLoading(true)
         getAllComics(offset)
             .then(onComicsListLoaded)
+            .then(() => setProcess('confirmed'))
     }
 
     const onComicsListLoaded = (newComicsList) => {
@@ -41,7 +41,7 @@ const ComicsList = () => {
         setComicsEnded(ended)
     }
 
-    useInfiniteScroll(lastElement, onRequest, loading, comicsEnded)
+    useInfiniteScroll(lastElement, onRequest, process, comicsEnded)
 
     function renderArr(arr) {
         const items = arr.map((item, i) => {
@@ -72,17 +72,13 @@ const ComicsList = () => {
 
     const items = renderArr(comicsList)
 
-    const spinner = loading && !newComicsLoading ? <Spinner/> : null
-    const errorMessage = error ? <ErrorMessage/> : null
-
     return (
         <div className="comics__list">
             {items}
-            {spinner}
-            {errorMessage}
+            {setListContent(process)}
             <button
                 className="button button__main button__long"
-                disabled={newComicsLoading}
+                disabled={!newComicsLoading}
                 style={{'display': comicsEnded ? 'none' : 'block' }}
                 onClick={() => onRequest(offset)}>
                 <div className="inner" ref={lastElement}>load more</div>
