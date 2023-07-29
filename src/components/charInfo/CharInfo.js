@@ -48,6 +48,8 @@ const View = ({data}) => {
         imgStyle = {'objectFit': 'contain'};
     }
 
+    let listScroll = comics.length < 7 ? null : {'height': '180px', 'overflow-y': 'scroll'}
+
     return (
         <>
             <motion.div
@@ -75,6 +77,7 @@ const View = ({data}) => {
             <div className="char__comics">Comics:</div>
             <motion.ul
                 className="char__comics-list"
+                style={listScroll}
                 initial={{ opacity: 0, transformOrigin: '50% 0' }}
                 animate={{ opacity: 1, transformOrigin: '50% 0' }}
                 exit={{ opacity: 0 }}
@@ -83,7 +86,7 @@ const View = ({data}) => {
                 {
                     comics.map((item, i) => {
                         // eslint-disable-next-line
-                        if (i > 9) return;
+                        // if (i > 9) return;
 
                         const comicId = item.resourceURI.split('/').pop();
 

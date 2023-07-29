@@ -38,9 +38,10 @@
         }
     }
     &__static {
-        padding: 40px 35px;
+        padding: 45px 35px;
         background-color: $dark;
         position: relative;
+        height: 289px;
         button {
             margin-top: 13px;
         }
@@ -52,7 +53,7 @@
         letter-spacing: -0.045em;
         color: #FFFFFF;
         &:nth-child(2) {
-            margin-top: 33px;
+            margin-top: 40px;
         }
     }
     &__decoration {
