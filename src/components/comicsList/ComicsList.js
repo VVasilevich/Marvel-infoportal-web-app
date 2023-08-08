@@ -47,11 +47,9 @@ const ComicsList = () => {
         const items = arr.map((item, i) => {
             return (
                 <motion.ul
-                    key={i}
-                    initial={{ opacity: 0, transformOrigin: '50% 0' }}
-                    animate={{ opacity: 1, transformOrigin: '50% 0' }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: .5 }}>
+                    initial={{opacity: 0}}
+                    animate={{opacity: 1, transition: {delay: (i % 8) * 0.25}}}
+                    key={i}>
                     <li className="comics__item" key={i}>
                         <Link to={`/comics/${item.id}`}>
                             <img src={item.thumbnail} alt={item.title} className="comics__item-img"/>

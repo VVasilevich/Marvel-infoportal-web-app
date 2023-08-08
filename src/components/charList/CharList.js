@@ -57,30 +57,29 @@ const CharList = (props) => {
             }
 
             return (
-                <motion.ul
+                <motion.li
+                    className="char__item"
+                    initial={{opacity: 0}}
+                    animate={{opacity: 1, transition: {delay: (i % 9) * 0.25}}}
                     key={item.id}
-                    initial={{ opacity: 0, transformOrigin: '50% 0' }}
-                    animate={{ opacity: 1, transformOrigin: '50% 0' }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: .5 }}>
-                    <li className="char__item"
-                        key={item.id}
-                        tabIndex={0}
-                        ref={elem => itemRefs.current[i] = elem}
-                        onClick={() => {
+                    tabIndex={0}
+                    ref={elem => itemRefs.current[i] = elem}
+                    onClick={() => {
+                        props.onCharSelected(item.id)
+                        onFocus(i)
+                    }}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
                             props.onCharSelected(item.id)
                             onFocus(i)
-                        }}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter') {
-                                props.onCharSelected(item.id)
-                                onFocus(i)
-                            }
-                        }}>
-                        <img src={item.thumbnail} alt={item.name} style={imgStyle}/>
-                        <div className="char__name">{item.name}</div>
-                    </li>
-                </motion.ul>
+                        }
+                    }}>
+                    <img
+                        src={item.thumbnail}
+                        alt={item.name}
+                        style={imgStyle}/>
+                    <div className="char__name">{item.name}</div>
+                </motion.li>
             )
         })
 

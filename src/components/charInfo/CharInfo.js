@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { motion } from 'framer-motion';
 
 import useMarvelService from '../../services/MarvelService';
 import setContent from '../../utils/setContent';
@@ -48,16 +47,11 @@ const View = ({data}) => {
         imgStyle = {'objectFit': 'contain'};
     }
 
-    let listScroll = comics.length < 7 ? null : {'height': '180px', 'overflow-y': 'scroll'}
+    let listScroll = comics.length < 7 ? null : {'height': '180px', 'overflowY': 'scroll'}
 
     return (
         <>
-            <motion.div
-                className="char__basics"
-                initial={{ opacity: 0, transformOrigin: '50% 0' }}
-                animate={{ opacity: 1, transformOrigin: '50% 0' }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: .5 }}>
+            <div className="char__basics">
                 <img src={thumbnail} alt={name} style={imgStyle}/>
                 <div>
                     <div className="char__info-name">{name}</div>
@@ -70,18 +64,12 @@ const View = ({data}) => {
                         </a>
                     </div>
                 </div>
-            </motion.div>
+            </div>
             <div className="char__descr">
                 {description}
             </div>
             <div className="char__comics">Comics:</div>
-            <motion.ul
-                className="char__comics-list"
-                style={listScroll}
-                initial={{ opacity: 0, transformOrigin: '50% 0' }}
-                animate={{ opacity: 1, transformOrigin: '50% 0' }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: .5 }}>
+            <ul className="char__comics-list" style={listScroll}>
                 {comics.length > 0 ? null : 'There is no comics with this character'}
                 {
                     comics.map((item, i) => {
@@ -97,7 +85,7 @@ const View = ({data}) => {
                         )
                     })
                 }
-            </motion.ul>
+            </ul>
         </>
     )
 }

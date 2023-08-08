@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 
 import setContent from '../../utils/setContent';
 import useMarvelService from '../../services/MarvelService';
@@ -56,12 +55,7 @@ const View = ({data}) => {
     }
 
     return (
-        <motion.div
-            className="randomchar__block"
-            initial={{ opacity: 0, transformOrigin: '50% 0' }}
-            animate={{ opacity: 1, transformOrigin: '50% 0' }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: .5 }}>
+        <div className="randomchar__block">
             <img src={thumbnail} alt="Random character" className="randomchar__img" style={imgStyle}/>
             <div className="randomchar__info">
                 <p className="randomchar__name">{name}</p>
@@ -77,7 +71,7 @@ const View = ({data}) => {
                     </a>
                 </div>
             </div>
-        </motion.div>
+        </div>
     )
 }
 
